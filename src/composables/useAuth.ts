@@ -21,7 +21,7 @@ export function useAuth() {
         && !!expires_in.value
         && expires_in.value > now.value
     );
-    const user = computed(() => parseJwt().sub)
+    const user = computed(() => parseJwt()?.sub)
 
     function refreshIsAuthenticated() {
         now.value = new Date();
@@ -54,6 +54,9 @@ export function useAuth() {
     }
 
     function parseJwt() {
+        if (!token.value) {
+            return null;
+        }
         const payloadBase64 = `${token.value}`.split('.')[1];
         const payloadJson = atob(payloadBase64.replace(/-/g, '+').replace(/_/g, '/'));
         return JSON.parse(payloadJson);

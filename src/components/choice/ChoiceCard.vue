@@ -4,7 +4,9 @@
   import {BusinessCode} from "@/shared/constants/BusinessCode.ts";
   import {useAuth} from "@/composables/useAuth.ts";
   import type Choice from "@/model/Choice.ts"
-  import {computed} from "vue";
+  import {computed, type PropType, watch} from "vue";
+  import {useWebSocket} from "@/composables/useWebSocket.ts";
+  import type Vote from "@/model/Vote/Vote.ts";
 
   const auth = useAuth();
   const props = defineProps({
@@ -21,8 +23,13 @@
       required: true
     }
   });
-
+  const {voteData, sendVoteMessage} = useWebSocket();
   const barHeight= computed(() => `${props.choice.votes.length / props.totalVotes * 100}%`);
+  watch(voteData, (v: Vote) => {
+    if (v.choice.id === props.choice?.id) {
+      props.choice.votes.push(v);
+    }
+  })
 
   async function sendVote() {
     const vote: VoteWriteDto= {
@@ -31,6 +38,7 @@
       voter_id: auth.getUserId
     }
     const response =  await addVote(vote);
+    sendVoteMessage(vote);
     if(response.code === BusinessCode.VOTE_CREATED){
       props.choice.votes.push(response.body)
     }

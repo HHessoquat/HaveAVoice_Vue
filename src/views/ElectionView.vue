@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
   import {getElection} from "@/repositories/election";
   import {useRoute} from "vue-router";
 import {BusinessCode} from "@/shared/constants/businessCode";
 import ChoiceCard from "@/components/choice/ChoiceCard.vue";
+import type Choice from "@/model/Choice.ts";
+import type Election from "@/model/Election.ts";
+import {useWebSocket} from "@/composables/useWebSocket.ts";
 
-
+  const webSocket = useWebSocket();
   const election = ref<Election>(null);
   const error = ref<string>("");
-  console.log(!election.value);
+
   const totalVotes= computed(() => {
     if (!election.value) return 0;
-    return election.value.choices.reduce((acc, choice) => acc + choice.votes.length, 0);
+    return election.value.choices.reduce((acc: Number, choice: Choice) => acc + choice.votes.length, 0);
   });
 
   onMounted(async () => {
@@ -22,7 +25,14 @@ import ChoiceCard from "@/components/choice/ChoiceCard.vue";
       return;
     }
     election.value = data.body;
+
+    webSocket.connect()
+
   });
+  onBeforeUnmount(() => {
+    webSocket.disconnect()
+  })
+
 
 
 </script>
