@@ -25,7 +25,9 @@
   });
   const {voteData, sendVoteMessage} = useWebSocket();
   const barHeight= computed(() => `${props.choice.votes.length / props.totalVotes * 100}%`);
+
   watch(voteData, (v: Vote) => {
+    console.log("got a message");
     if (v.choice.id === props.choice?.id) {
       props.choice.votes.push(v);
     }
@@ -37,11 +39,8 @@
       choice_id: props.choice.id,
       voter_id: auth.getUserId
     }
-    const response =  await addVote(vote);
+    await addVote(vote);
     sendVoteMessage(vote);
-    if(response.code === BusinessCode.VOTE_CREATED){
-      props.choice.votes.push(response.body)
-    }
   }
 </script>
 

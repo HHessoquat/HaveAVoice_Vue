@@ -31,7 +31,7 @@ export function useWebSocket() {
 
     function sendVote(vote: VoteWriteDto) {
         stompClient.publish({
-            destination: "app/vote",
+            destination: "/app/vote",
             body: JSON.stringify(vote),
         })
     }
