@@ -5,8 +5,9 @@ import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {BusinessCode} from "@/shared/constants/businessCode";
 import ChoiceCard from "@/components/choice/ChoiceCard.vue";
 import type Choice from "@/model/Choice.ts";
-import type Election from "@/model/Election.ts";
+import type Election from "@/model/Election/Election.js";
 import {useWebSocket} from "@/composables/useWebSocket.ts";
+import HorizontalDivider from "@/components/genericComponents/visuals/HorizontalDivider.vue";
 
   const webSocket = useWebSocket();
   const election = ref<Election>(null);
@@ -33,14 +34,13 @@ import {useWebSocket} from "@/composables/useWebSocket.ts";
     webSocket.disconnect()
   })
 
-
-
 </script>
 
 <template>
   <div v-if="error">{{($t(error))}}</div>
   <div v-else-if="election">
     <h1>{{election.name}}</h1>
+    <HorizontalDivider width="100%" height="2px"/>
     <div class="choiceContainer">
       <div v-for="choice of election.choices" :key=choice.id>
         <ChoiceCard :choice="choice" :date-end="Date.parse(election.dateEnd)" :total-votes="totalVotes"/>

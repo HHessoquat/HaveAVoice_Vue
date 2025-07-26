@@ -1,4 +1,4 @@
-import {computed, ref} from "vue";
+import {computed, type ComputedRef, ref} from "vue";
 import {useRouter} from "vue-router";
 import {auth} from "../repositories/auth.ts";
 
@@ -21,7 +21,8 @@ export function useAuth() {
         && !!expires_in.value
         && expires_in.value > now.value
     );
-    const user = computed(() => parseJwt()?.sub)
+
+    const user:ComputedRef<string> = computed(() => parseJwt()?.sub)
 
     function refreshIsAuthenticated() {
         now.value = new Date();
@@ -54,7 +55,7 @@ export function useAuth() {
     }
 
     function parseJwt() {
-        if (!token.value) {
+        if (!isAuthenticated) {
             return null;
         }
         const payloadBase64 = `${token.value}`.split('.')[1];

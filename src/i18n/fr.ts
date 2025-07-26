@@ -4,6 +4,7 @@ export const fr =  {
         USERNAME_PLACEHOLDER: "Nom d'utilisateur",
         PASSWORD_PLACEHOLDER: "Mot de passe",
         LOGIN: 'connexion',
+        LOGOUT: 'Déconnexion',
         ERRORS: {
             INVALID_CREDENTIALS: "Identifiants invalides",
             PASSWORD_REQUIRED: "le mot de passe est requis",

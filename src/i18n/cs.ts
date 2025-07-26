@@ -4,6 +4,7 @@ export const cs ={
         USERNAME_PLACEHOLDER: "Uživatelské jméno",
         PASSWORD_PLACEHOLDER: "Heslo",
         LOGIN: 'přihlásit se',
+        LOGOUT: 'Odhlásit se',
         ERRORS: {
             INVALID_CREDENTIALS: "Neplatná pověření",
             PASSWORD_REQUIRED: "je vyžadováno uživatelské jméno",

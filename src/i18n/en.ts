@@ -3,7 +3,8 @@ export const en = {
     LOGIN: {
         USERNAME_PLACEHOLDER: "Username",
         PASSWORD_PLACEHOLDER: "Password",
-        LOGIN: 'log in',
+        LOGIN: 'Log in',
+        LOGOUT: 'Log out',
         ERRORS: {
             INVALID_CREDENTIALS: "Invalid credentials",
             PASSWORD_REQUIRED: "Password is required",

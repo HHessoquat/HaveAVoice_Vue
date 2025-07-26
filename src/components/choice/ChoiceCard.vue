@@ -1,12 +1,12 @@
 <script setup lang="ts">
   import type VoteWriteDto from "@/model/Vote/VoteWriteDto.ts";
   import {addVote} from "@/repositories/Vote.ts";
-  import {BusinessCode} from "@/shared/constants/BusinessCode.ts";
   import {useAuth} from "@/composables/useAuth.ts";
   import type Choice from "@/model/Choice.ts"
   import {computed, type PropType, watch} from "vue";
   import {useWebSocket} from "@/composables/useWebSocket.ts";
   import type Vote from "@/model/Vote/Vote.ts";
+  import GraphBar from "@/components/choice/GraphBar.vue";
 
   const auth = useAuth();
   const props = defineProps({
@@ -27,7 +27,6 @@
   const barHeight= computed(() => `${props.choice.votes.length / props.totalVotes * 100}%`);
 
   watch(voteData, (v: Vote) => {
-    console.log("got a message");
     if (v.choice.id === props.choice?.id) {
       props.choice.votes.push(v);
     }
@@ -46,10 +45,8 @@
 
 <template>
   <article >
-    <div class="barContainer">
-      <div class="bar"></div>
-    </div>
-    <p>nb vote : {{choice.votes.length}}</p>
+    <GraphBar :bar-height="barHeight" :color="choice.color"/>
+    <p class="score">{{choice.votes.length}}</p>
     <h2> {{ choice.name }} </h2>
     <img v-if="choice.image" :src="choice.image" :alt="choice.alt" />
     <p> {{choice.description}}</p>
@@ -65,16 +62,15 @@ article{
   justify-content: center;
   align-items: center;
 }
-.barContainer {
-  height: 200px;
-  width: 80px;
-  background-color: lightgray;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+.score {
+  font-size: 1.2em;
+  font-weight: bold;
 }
-.bar {
-  background-color: var(--primary);
-  height: v-bind(barHeight) ;
+h2 {
+  font-size: 1.5em;
+  margin: 0;
+}
+button:active {
+  transform: scale(0.9);
 }
 </style>

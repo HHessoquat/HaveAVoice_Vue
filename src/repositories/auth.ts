@@ -15,4 +15,7 @@ export const auth = async (credentials: { username: string; password: string }):
     return await res.json();
 }
 
-export const getRoles = () => {}
+export const getRoles = (): string[] => {
+    //TODO
+    return ['ROLE_USER'];
+}

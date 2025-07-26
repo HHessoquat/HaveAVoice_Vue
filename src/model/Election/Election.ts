@@ -1,6 +1,6 @@
 
-import type Choice from './Choice';
-import type User from "./User.ts";
+import type Choice from '../Choice.ts';
+import type User from "../User.ts";
 
 export default interface Election {
   id:number;

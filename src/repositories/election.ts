@@ -1,5 +1,5 @@
 import {BusinessCode} from "@/shared/constants/businessCode";
-import type Election from "../model/Election.ts";
+import type Election from "../model/Election/Election.ts";
 import type ApiResponse from "../model/ApiResponse/ApiResponse.ts";
 
 const apiUrl = `${import.meta.env.VITE_APP_BASE_URL}${import.meta.env.VITE_APP_API_PATH}`;

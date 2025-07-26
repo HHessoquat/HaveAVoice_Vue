@@ -1,10 +1,12 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {useAuth} from "@/composables/useAuth.ts";
 import HomeView from '@/views/HomeView.vue'
-import LoginView from "@/views/LoginView.vue";
+import LoginView from '@/views/LoginView.vue';
 import ElectionView from "@/views/ElectionView.vue";
 import UnauthorizedView from "@/views/errors/UnauthorizedView.vue";
 import NotFoundView from "@/views/errors/NotFoundView.vue";
+import UserView from "../views/user/UserView.vue";
+import {getRoles} from "../repositories/auth.ts";
 
 const routes = [
   {
@@ -12,7 +14,8 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      roles: ''
     }
   },
   {
@@ -20,7 +23,8 @@ const routes = [
     name: 'login',
     component: LoginView,
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      roles: ''
     }
   },
   {
@@ -28,7 +32,17 @@ const routes = [
     name: 'election',
     component: ElectionView,
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      roles: ''
+    }
+  },
+  {
+    path: '/user/:username',
+    name: 'userPage',
+    component: UserView,
+    meta: {
+      requiresAuth: true,
+      roles: ''
     }
   },
   {
@@ -36,7 +50,8 @@ const routes = [
     name: 'unauthorized',
     component: UnauthorizedView,
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      roles: ''
     }
   },
   {
@@ -44,7 +59,8 @@ const routes = [
     name: 'notFound',
     component: NotFoundView,
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      roles: ''
     }
   },
   {
@@ -57,20 +73,21 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   if (!to.meta.requiresAuth) {
-    next();
+    return true;
   } else {
     const auth = useAuth();
     if (!auth.isAuthenticated.value) {
-      next('/login');
+     return {name: 'login'};
     } else {
       const roles = getRoles();
-      if (to.meta.roles && !roles.includes(to.meta.role)) {
-        next('/unauthorize');
+      if (to.meta.roles && !roles.includes(to.meta.role as string)) {
+        return {name: 'unauthorized'};
       }
     }
   }
+
 
 })
 

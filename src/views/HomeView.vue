@@ -1,7 +1,4 @@
 <template>
-  <div>
-    <LoginForm />
-  </div>
   <div v-if="error">{{$t('HOME')}}</div>
   <div v-else>
     <article v-for="election of elections" :key="election.id">

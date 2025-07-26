@@ -1,8 +1,8 @@
 :root {
-  --primary: #FF80FF;
-  --secondary: #DD50DD;
+  --primary: #DD50DD;
+  --secondary: #AA40AA;
   --bg: #242424;
-  --light-bg: #646464;
+  --light-bg: #000;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -22,9 +22,7 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
-a:hover {
-  color: #535bf2;
-}
+
 
 body {
   margin: 0;
@@ -49,10 +47,15 @@ input {
   background-color: var(--primary);
   text-align: center;
   padding: 0.4em;
+  font-weight: bold;
 }
 input:focus {
   outline: none;
   background-color: var(--secondary);
+}
+input::placeholder {
+  color: #CCC;
+
 }
 
 button {
@@ -81,6 +84,12 @@ button:focus-visible {
 #app {
   text-align: center;
 }
+.link {
+  transition: transform 0.25s ease-in;
+}
+.link:hover {
+  transform: scale(1.1);
+}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -90,9 +99,6 @@ button:focus-visible {
     --light-bg: #A0A0A0;
     color: #213547;
 
-  }
-  a:hover {
-    color: #747bff;
   }
   button {
     background-color: #f9f9f9;
